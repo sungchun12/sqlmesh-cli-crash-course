@@ -11,7 +11,8 @@ MODEL (
 SELECT
   id,
   item_id,
-  event_date
+  event_date,
+  9 as new_column
 FROM
   sqlmesh_example.seed_model
 WHERE
