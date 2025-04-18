@@ -5,14 +5,15 @@ MODEL (
   ),
   start '2020-01-01',
   cron '@daily',
-  grain (id, event_date)
+  grain (id, event_date),
+  allow_partials true
 );
 
 SELECT
   id,
   item_id,
   event_date,
-  9 as new_column
+  10 as new_column
 FROM
   sqlmesh_example.seed_model
 WHERE

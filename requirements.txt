@@ -1,2 +1,0 @@
-git+https://github.com/TobikoData/sqlmesh.git@trey/virtual-prog-bar
-# sqlmesh
