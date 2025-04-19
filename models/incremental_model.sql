@@ -6,6 +6,12 @@ MODEL (
   start '2020-01-01',
   cron '@daily',
   grain (id, event_date),
+  audits( UNIQUE_VALUES(columns = (
+      id,
+  )), NOT_NULL(columns = (
+      id,
+      event_date
+  ))),
   allow_partials true
 );
 
@@ -13,7 +19,7 @@ SELECT
   id,
   item_id,
   event_date,
-  10 as new_column
+  16 as new_column
 FROM
   sqlmesh_example.seed_model
 WHERE
