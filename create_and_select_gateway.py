@@ -2,7 +2,10 @@ from sqlmesh import Context
 from sqlmesh.core.config import Config, GatewayConfig, ModelDefaultsConfig
 from sqlmesh.core.config.connection import DuckDBConnectionConfig
 
-def run_plan():
+# First, load the existing context with config.yaml
+base_context = Context(paths="/Users/sung/Desktop/git_repos/sqlmesh-cli-crash-course")
+
+def run_plan(base_context):
     # Create new gateway configuration with only catalogs
     new_gateway_config = GatewayConfig(
         connection=DuckDBConnectionConfig(
@@ -17,21 +20,20 @@ def run_plan():
         )
     )
     
-    # Create the initial config with the new gateway
+    # Create a new Config object with the new gateway
     new_config = Config(
-        model_defaults=ModelDefaultsConfig(dialect="duckdb", start="2025-03-26"),
-        gateways={"snowflake2": new_gateway_config},
-        default_gateway="snowflake2"  # Set this as the default gateway
+        gateways={"snowflake2": new_gateway_config}
     )
     
-    # Initialize context with the new configuration
+    # Update the existing config with the new gateway while preserving other settings
+    updated_config = base_context.config.update_with(new_config)
+    
+    # Create a new context with the updated config
     context = Context(
         paths="/Users/sung/Desktop/git_repos/sqlmesh-cli-crash-course",
-        config=new_config,
+        config=updated_config,
         gateway="snowflake2"
     )
-
-    print(context.config.gateways)
 
     # Load the context
     context.load()
@@ -54,11 +56,16 @@ def run_plan():
     print(f"Plan has changes: {plan.has_changes}")
     print(f"Plan requires backfill: {plan.requires_backfill}")
 
-    return plan
+    return plan, context
 
 # Execute the plan
 try:
-    plan = run_plan()
+    plan, context = run_plan(base_context)
+    
+    # Print the final config to verify all settings are preserved
+    print("\nFinal Config:")
+    print(f"All gateways: {context.config.gateways}")
+    
 except Exception as e:
     print(f"\nError occurred: {str(e)}")
     import traceback; traceback.print_exc()
