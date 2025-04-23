@@ -3,6 +3,10 @@ gateways:
     connection:
       type: duckdb
       database: db.db
+  snowflake:
+    connection:
+      type: duckdb
+      database: snowflake.db
 
 default_gateway: duckdb
 

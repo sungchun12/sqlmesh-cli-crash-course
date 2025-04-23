@@ -1,0 +1,35 @@
+test_full_model:
+  model: '"db"."sqlmesh_example"."full_model"'
+  inputs:
+    '"db"."sqlmesh_example"."incremental_model"':
+    - id: -11
+      item_id: -11
+      event_date: 2020-01-01
+      new_column: 20
+    - id: 1
+      item_id: 1
+      event_date: 2020-01-01
+      new_column: 20
+    - id: 3
+      item_id: 3
+      event_date: 2020-01-03
+      new_column: 20
+    - id: 4
+      item_id: 1
+      event_date: 2020-01-04
+      new_column: 20
+    - id: 5
+      item_id: 1
+      event_date: 2020-01-05
+      new_column: 20
+  outputs:
+    query:
+    - item_id: 3
+      num_orders: 1
+      new_column: 20
+    - item_id: 1
+      num_orders: 3
+      new_column: 20
+    - item_id: -11
+      num_orders: 1
+      new_column: 20
