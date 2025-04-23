@@ -23,16 +23,16 @@ def run_plan(context):
     # Create new gateway configuration
     new_gateway_config = GatewayConfig(
         connection=DuckDBConnectionConfig(
-            database="/Users/sung/Desktop/git_repos/sqlmesh-cli-crash-course/snowflake2.db"
+            database="/Users/sung/Desktop/git_repos/sqlmesh-cli-crash-course/snowflake2.db",
         ),
         state_connection=DuckDBConnectionConfig(
-            database="/Users/sung/Desktop/git_repos/sqlmesh-cli-crash-course/snowflake2_state.db"
+            database="/Users/sung/Desktop/git_repos/sqlmesh-cli-crash-course/snowflake2_state.db",
         )
     )
     
     # Create a new Config object with the new gateway
     new_config = Config(
-        model_defaults=ModelDefaultsConfig(dialect="duckdb"),
+        model_defaults=ModelDefaultsConfig(dialect="duckdb", start="2025-03-26"),
         gateways={"snowflake2": new_gateway_config}
     )
     
@@ -47,21 +47,35 @@ def run_plan(context):
     
     # Select the new gateway
     context.selected_gateway = "snowflake2"
-    context.load()
-    
-    # Now you can use the new gateway for your plan
-    plan = context.plan(auto_apply=True, no_prompts=True)
-    # context.apply(plan)
     # breakpoint()
-    # Create and execute the plan
-    # plan_builder = context.plan_builder(
-    #     environment="dev",  # or your target environment
-    #     auto_apply=True,
-    #     no_prompts=True  # Skip interactive prompts
-    # )
+    # First, load the context to ensure models are loaded
+    context.load()
+
+    print("Available models:")
+    context.load()  # Load the context first
+    print(list(context.models.keys()))
+
+    # Create and execute the plan with a specific environment
+    plan = context.plan(
+        environment="dev",  # Specify the target environment
+        auto_apply=True,
+        no_prompts=True,
+        include_unmodified=True  # Include all models even if they haven't changed
+    )
+    
+    # Print plan details
+    print("\nPlan Details:")
+    print(f"Plan has changes: {plan.has_changes}")
+    print(f"Plan requires backfill: {plan.requires_backfill}")
+    if plan.has_changes:
+        print("\nModified models:")
+        for model in plan.modified_models:
+            print(f"- {model}")
+
     return plan
 
-run_plan(context)
+# Execute the plan
+plan = run_plan(context)
 # attempt to create a new gateway on runtime
 
     # {'duckdb': GatewayConfig<connection: DuckDBConnectionConfig<database: db.db>>, 'snowflake': GatewayConfig<connection: DuckDBConnectionConfig<database: snowflake.db>>}
