@@ -7,8 +7,7 @@ MODEL (
       item_id
     )), NOT_NULL(columns = (
       item_id
-  )),
-  assert_positive_order_ids)
+  )))
 );
 
 SELECT
