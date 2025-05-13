@@ -4,13 +4,14 @@ MODEL (
   partitioned_by id,
   start '2020-01-01',
   cron '@daily',
-  grain (id, event_date)
+  grain (id, event_date),
 );
 
 SELECT
   id,
   item_id,
-  event_date
+  event_date,
+  1 as new_column
 FROM
   sqlmesh_example.seed_model
 WHERE
