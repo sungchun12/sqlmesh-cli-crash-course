@@ -19,7 +19,7 @@ SELECT
   id,
   item_id,
   event_date,
-  22 as new_column
+  28 as new_column
 FROM
   sqlmesh_example.seed_model
 WHERE
