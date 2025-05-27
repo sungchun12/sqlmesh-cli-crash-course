@@ -11,7 +11,7 @@ MODEL (
 
 SELECT
   id AS order_id,
-  user_id AS customer_id,
-  order_date,
-  status
+  user_id AS customer_id, --aiwenfionaoiwjsfe
+  order_date, -- transaction order date
+  status -- this is a comment
 FROM tcloud_demo.seed_raw_orders

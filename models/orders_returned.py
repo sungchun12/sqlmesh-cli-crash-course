@@ -9,6 +9,7 @@ from sqlmesh import ExecutionContext, model
     "tcloud_demo.orders_returned",
     owner="sung",
     cron="@daily",
+    grain="order_id",
     columns={
         "order_id": "int",
         "customer_id": "int",
@@ -34,7 +35,7 @@ def execute(
 ) -> pd.DataFrame:
     # Fetch data from the stg_orders model, automatically captures the model's dependencies
     table = context.table("tcloud_demo.stg_orders")
-    df = context.fetchdf(f"SELECT * FROM {table}")
+    df = context.fetchdf(f"SELECT * FROM {table} where customer_id>=9")
 
     # Filter only where status equals "returned"
     df_returned = df[df['status'] == 'returned']
