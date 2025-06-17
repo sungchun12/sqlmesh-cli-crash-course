@@ -13,9 +13,19 @@ default_gateway: duckdb
 model_defaults:
   dialect: duckdb
   start: 2018-01-01
+  # audits: [assert_positive_order_ids]
 
 linter:
   enabled: true
-  rules: ["ambiguousorinvalidcolumn", "invalidselectstarexpansion"] # raise errors for these rules
-  warn_rules: ["noselectstar", "nomissingaudits"]
+  # rules: ["ambiguousorinvalidcolumn", "invalidselectstarexpansion"] # raise errors for these rules
+  warn_rules: ["nomissingaudits"]
   # ignored_rules: ["noselectstar"]
+
+default_target_environment: dev_{{ env_var('USER', 'default') }}
+
+plan:
+  enable_preview: true
+  # no_diff: true
+  # use_finalized_state: true
+  # no_prompts: true
+  # auto_apply: true

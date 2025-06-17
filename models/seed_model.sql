@@ -6,8 +6,7 @@ MODEL (
   columns (
     id INTEGER,
     item_id FLOAT,
-    event_date TIMESTAMP
+    event_date DATE
   ),
   grain (id, event_date)
 );
-  

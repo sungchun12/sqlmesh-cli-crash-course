@@ -1,6 +1,6 @@
 MODEL (
   name sqlmesh_example_v3.incremental_partition_model,
-  kind INCREMENTAL_BY_PARTITION,
+  kind INCREMENTAL_BY_PARTITION(  on_destructive_change 'allow'),
   partitioned_by id,
   start '2020-01-01',
   cron '@daily',
@@ -16,4 +16,4 @@ FROM
   sqlmesh_example.seed_model
 WHERE
   event_date BETWEEN @start_date AND @end_date
-  
+limit 5

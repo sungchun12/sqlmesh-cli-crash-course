@@ -19,7 +19,8 @@ SELECT
   2 as new_column3,
   3 as new_column4,
   5 as new_column5,
-  8 as new_column6,
+  8 as new_column1,
+  2 as new_column6,
 FROM
   sqlmesh_example.seed_model
 WHERE
