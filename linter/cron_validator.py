@@ -16,6 +16,12 @@ class CronValidator(Rule):
         for upstream_model_name in model.depends_on:
             try:
                 upstream_model = self.context.get_model(upstream_model_name)
+
+                # Skip model kinds since they don't have cron schedules
+                skip_kinds = ["EXTERNAL", "EMBEDDED", "SEED"]
+                if upstream_model.kind.name in skip_kinds:
+                    continue
+
                 upstream_model_cron = upstream_model.cron
 
                 # Compare cron expressions
