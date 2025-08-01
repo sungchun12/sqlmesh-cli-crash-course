@@ -27,7 +27,7 @@ class CronValidator(Rule):
                 # Compare cron expressions
                 if self._is_cron_longer(upstream_model_cron, this_model_cron):
                     return self.violation(
-                        f"Upstream model {upstream_model_name} has longer interval ({upstream_model_cron}) "
+                        f"Upstream model {upstream_model_name} has longer cron interval ({upstream_model_cron}) "
                         f"than this model ({this_model_cron})"
                     )
             except Exception:
@@ -38,9 +38,34 @@ class CronValidator(Rule):
     def _is_cron_longer(self, upstream_cron, current_cron) -> bool:
         """Compare two cron expressions to determine if upstream has longer intervals."""
 
-        # Convert cron expressions to IntervalUnits for comparison
-        upstream_interval = IntervalUnit.from_cron(upstream_cron)
-        current_interval = IntervalUnit.from_cron(current_cron)
+        # Skip validation if either cron is not in standard format
+        if not isinstance(current_cron, str) or not isinstance(upstream_cron, str):
+            return False
 
-        # Compare the interval durations in seconds
-        return upstream_interval.seconds > current_interval.seconds
+        # Check for @daily vs longer intervals
+        if current_cron == "@daily" and (
+            # Match @weekly
+            upstream_cron == "@weekly"
+            # Match */n or n-31/n pattern in day-of-month field (position 3)
+            or any(
+                pattern in upstream_cron.split()[2] 
+                for pattern in ["*/", "-31/"]
+            )
+            # Match standard cron format with intervals between daily and monthly
+            or any(
+                upstream_cron.startswith(f"0 0 {pattern}")
+                for pattern in [
+                    r"\d+-\d+",  # Range of days
+                    r"\d+,\d+",  # List of days
+                    r"\*/\d+",   # Every n days
+                ]
+            )
+        ):
+            return True
+        else: 
+            # Convert cron expressions to IntervalUnits for comparison
+            upstream_interval = IntervalUnit.from_cron(upstream_cron)
+            current_interval = IntervalUnit.from_cron(current_cron)
+
+            # Compare the interval durations in seconds
+            return upstream_interval.seconds > current_interval.seconds
