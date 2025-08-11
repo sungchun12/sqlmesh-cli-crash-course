@@ -15,6 +15,5 @@ SELECT
   payment_method, -- credit card, cash ajiwoejioajwef
   'advanced_cll_column' AS advanced_cll_column, /* Tobiko Cloud only feature  */
   amount / 100 AS amount, /* `amount` is currently stored in cents, so we convert it to dollars */
-  '1255' AS new_column_demos, /* non-breaking change example  */
-  'aweijoawef' as new_column
+  '1' AS new_column_demo, /* non-breaking change example  */
 FROM tcloud_demo.seed_raw_payments

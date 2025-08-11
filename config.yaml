@@ -3,10 +3,6 @@ gateways:
     connection:
       type: duckdb
       database: db.db
-  snowflake:
-    connection:
-      type: duckdb
-      database: snowflake.db
 
 default_gateway: duckdb
 
@@ -20,12 +16,3 @@ linter:
   # rules: ["ambiguousorinvalidcolumn", "invalidselectstarexpansion"] # raise errors for these rules
   warn_rules: ["nomissingaudits"]
   # ignored_rules: ["noselectstar"]
-
-default_target_environment: dev_{{ env_var('USER', 'default') }}
-
-plan:
-  enable_preview: true
-  # no_diff: true
-  # use_finalized_state: true
-  # no_prompts: true
-  # auto_apply: true
