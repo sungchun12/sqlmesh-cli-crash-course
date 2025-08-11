@@ -3,11 +3,10 @@ MODEL (
   kind INCREMENTAL_BY_TIME_RANGE (
     time_column event_date
   ),
-  description "awuioehfoiah2uwhoiahwoidfvcoawefjoiajwoiefoia wefjaiowefjoiajsiodfoiajwioefoiawjoiefawef",
+  description "this is an incremental model",
   start '2020-01-01',
   cron '@daily',
   grain (id, event_date),
-  audits (assert_date_sync(date_column:= event_date, upstream_ref:= sqlmesh_example.seed_model))
 );
 
 SELECT

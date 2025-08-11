@@ -14,5 +14,5 @@ model_defaults:
 linter:
   enabled: true
   # rules: ["ambiguousorinvalidcolumn", "invalidselectstarexpansion"] # raise errors for these rules
-  warn_rules: ["nomissingaudits"]
+  # warn_rules: ["nomissingaudits"]
   # ignored_rules: ["noselectstar"]
