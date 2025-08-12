@@ -18,6 +18,6 @@ model_defaults:
 # https://sqlmesh.readthedocs.io/en/stable/guides/linter/
 linter:
   enabled: true
-  # rules: ["ambiguousorinvalidcolumn", "invalidselectstarexpansion"] # raise errors for these rules
+  rules: ["ambiguousorinvalidcolumn", "invalidselectstarexpansion"] # raise errors for these rules
   # warn_rules: ["nomissingaudits"]
   # ignored_rules: ["noselectstar"]

@@ -24,7 +24,6 @@ WITH orders AS (
     order_id,
     payment_method,
     amount,
-    advanced_cll_column
   FROM tcloud_demo.stg_payments
 ), order_payments AS (
   SELECT
